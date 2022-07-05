@@ -1,0 +1,39 @@
+{% extends 'team_member/base.html' %}
+{% block content %}
+{% load static %}
+{##}
+{#<link rel="stylesheet" type="text/css" href="{% static 'team_member/style.css' %}">#}
+<br/>
+<div class="position-relative top-0 start-100">
+    <a href="{% url 'team_member:add' %}" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+    </a>
+</div>
+{% if member_list %}
+    <h4>Team members</h4>
+    <h5 class="text-muted">You have {{ member_list.count }} team members.</h5>
+    <hr>
+    <ul class="list-group list-group-flush">
+    {% for member in member_list %}
+        <li class="list-group-item">
+            <a href="{% url 'team_member:edit' member.id %}" class="text-decoration-none text-reset">
+                <div class="hstack gap-2 mb-3">
+                    <div class="avatar">
+                        <img class="avatar-img rounded-circle" src="/static/images/user.jpeg" alt="user" width="50px" height="50px">
+                    </div>
+                    <div class="overflow-hidden" >
+                        <div class="h6 mb-0">{{ member }}</div>
+                        <p class="small text-muted">{{ member.phone_number }}<br/>{{ member.email }}</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <br>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+{% endblock %}

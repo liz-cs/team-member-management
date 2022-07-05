@@ -1,0 +1,9 @@
+
+.same-line label.box input[type="radio"] {
+    color: grey;
+}
+.same-line label.box input[type="radio"]:checked {
+    color: black;
+    text-decoration-line: line-through;
+}
+
