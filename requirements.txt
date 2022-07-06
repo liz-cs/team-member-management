@@ -1,0 +1,8 @@
+asgiref==3.5.2
+bv==0.1.4
+chardet==5.0.0
+Django==4.0.5
+et-xmlfile==1.1.0
+openpyxl==3.0.10
+python-decouple==3.6
+sqlparse==0.4.2
