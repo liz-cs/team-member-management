@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
 from django.views import generic
 
+from .form import TeamMemberForm
 from .models import TeamMember
 
 
@@ -17,47 +18,34 @@ class IndexView(generic.ListView):
         return TeamMember.objects.all().order_by('id')
 
 
-class EditView(generic.DetailView):
-    model = TeamMember
-    template_name = 'team_member/edit.html'
-    context_object_name = 'member'
-
-
 def edit(request, member_id):
-    member = get_object_or_404(TeamMember, pk=member_id)
-    return render(request, 'team_member/edit.html', {'member': member})
-
-
-def edit_save(request, member_id):
-    member = get_object_or_404(TeamMember, pk=member_id)
-    save(member, request)
-    return HttpResponseRedirect(reverse('team_member:index'))
+    member = get_object_or_404(TeamMember, id=member_id)
+    if request.method == 'POST':
+        team_member_form = TeamMemberForm(request.POST, instance=member)
+        if team_member_form.is_valid():
+            team_member_form.save()
+            return HttpResponseRedirect(reverse('team_member:index'))
+        else:
+            return render(request, 'team_member/edit.html', {'form': team_member_form})
+    else:
+        team_member_form = TeamMemberForm(instance=member)
+        return render(request, 'team_member/edit.html', {'form': team_member_form, 'member_id': member_id})
 
 
 def delete(request, member_id):
-    member = get_object_or_404(TeamMember, pk=member_id)
+    member = get_object_or_404(TeamMember, id=member_id)
     member.delete()
     return HttpResponseRedirect(reverse('team_member:index'))
 
 
 def add(request):
-    member = TeamMember()
-    return render(request, 'team_member/add.html', {'member': member})
-
-
-def add_save(request):
-    member = TeamMember()
-    save(member, request)
-    return HttpResponseRedirect(reverse('team_member:index'))
-
-
-def save(member, request):
-    member.first_name = request.POST['first_name']
-    member.last_name = request.POST['last_name']
-    member.email = request.POST['email']
-    member.phone_number = request.POST['phone_number']
-    if request.POST['status'] == 'true':
-        member.status = True
+    if request.method == 'POST':
+        team_member_form = TeamMemberForm(request.POST)
+        if team_member_form.is_valid():
+            team_member_form.save()
+            return HttpResponseRedirect(reverse('team_member:index'))
+        else:
+            return render(request, 'team_member/add.html', {'form': team_member_form})
     else:
-        member.status = False
-    member.save()
+        team_member_form = TeamMemberForm()
+        return render(request, 'team_member/add.html', {'form': team_member_form})

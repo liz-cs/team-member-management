@@ -8,31 +8,21 @@
 <h5 class="text-muted">Edit contract info, location and role.</h5>
 <hr>
 
-<form action="{% url 'team_member:edit_save' member.id %}" method="post">
+<form action="" method="post">
     {% csrf_token %}
-    <h5>Info</h5>
+    <h3>Info</h3>
     <div class="mb-3">
-        <input type="text" class="form-control text-muted" name="first_name" value="{{ member.first_name }}"><br>
-         <input type="text" class="form-control text-muted" name="last_name" value="{{ member.last_name }}"><br>
-        <input type="text" class="form-control text-muted" name="email" value="{{ member.email }}"><br>
-        <input type="text" class="form-control text-muted" name="phone_number" value="{{ member.phone_number }}"><br>
+        <p>{{ form.first_name }}</p>
+        <p>{{ form.last_name }}</p>
+        <p>{{ form.email }}</p>
+        <p>{{ form.phone_number }}</p>
     </div>
-    <h5>Role</h5>
-    {% if member.status %}
-        <label class="box" for = 'false'>Regular - Can't delete members</label>
-        <input type="radio" class="justify-content-end" name="status" id="false" value="false"><hr>
-        <label class="box" for = 'true'>Admin - Can delete members</label>
-        <input type="radio" class="justify-content-end" name="status" id="true" value="true" checked="checked"><hr>
-    {% else %}
-        <label for = 'false'>Regular - Can't delete members</label>
-        <input type="radio" class="justify-content-end" name="status" id="false" value="false" checked="checked"><hr>
-        <label for = 'true'>Admin - Can delete members</label>
-        <input type="radio" class="justify-content-end" name="status" id="true" value="true"><hr>
-    {% endif %}
+    <h3>Role</h3>
+    <p>{{ form.status}}</p>
     <input type="submit" class="btn btn-primary float-end" value="Save">
 </form>
 
-<form action="{% url 'team_member:delete' member.id %}" method="post">
+<form action="{% url 'team_member:delete' member_id %}" method="post">
     {% csrf_token %}
     <input type="submit" class="btn btn-outline-danger" value="Delete">
 </form>

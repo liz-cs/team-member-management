@@ -1,26 +1,21 @@
 {% extends 'team_member/base.html' %}
 {% block content %}
 {% load static %}
-{##}
-{#<link rel="stylesheet" type="text/css" href="{% static 'team_member/style.css' %}">#}
 
 <h4>Add Team member</h4>
 <h5 class="text-muted">Set email, location and role.</h5>
 <hr>
-<form action="{% url 'team_member:add_save' %}" method="post">
+<form method="post" action="">
     {% csrf_token %}
     <h3>Info</h3>
     <div class="mb-3">
-        <input type="text" class="form-control text-muted" name="first_name" placeholder="First Name"><br>
-        <input type="text" class="form-control text-muted" name="last_name" placeholder="Last Name"><br>
-        <input type="text" class="form-control text-muted" name="email" placeholder="Email"><br>
-        <input type="text" class="form-control text-muted" name="phone_number" placeholder="Phone Number"><br>
+        <p>{{ form.first_name }}</p>
+        <p>{{ form.last_name }}</p>
+        <p>{{ form.email }}</p>
+        <p>{{ form.phone_number }}</p>
     </div>
     <h3>Role</h3>
-    <label for = 'false'>Regular - Can't delete members</label>
-    <input type="radio" name="status" id="false" value="false" checked="checked"><hr>
-    <label for = 'true'>Admin - Can delete members</label>
-    <input type="radio" name="status" id="true" value="true"><hr>
+    <p>{{ form.status}}</p>
     <input type="submit" class="btn btn-primary float-end" value="Save">
 </form>
 {% endblock %}
